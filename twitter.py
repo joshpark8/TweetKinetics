@@ -18,14 +18,14 @@ def bearer_oauth(r):
 
 def connect_to_endpoint(url, params):
     response = requests.get(url, auth=bearer_oauth, params=params)
-    # print(response.status_code) # uncomment if 
+    # print(response.status_code) # uncomment if needed to debug
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.json()
 
 def connect_to_endpoint2(url):
     response = requests.get(url, auth=bearer_oauth)
-    print(response.status_code)
+    # print(response.status_code) # uncomment if needed to debug
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.json()
