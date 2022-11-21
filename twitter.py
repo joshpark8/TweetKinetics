@@ -23,8 +23,8 @@ def connect_to_endpoint(url, params):
         raise Exception(response.status_code, response.text)
     return response.json()
 
-def connect_to_endpoint2(url):#, params):
-    response = requests.get(url, auth=bearer_oauth)#, params=params)
+def connect_to_endpoint2(url):
+    response = requests.get(url, auth=bearer_oauth)
     print(response.status_code)
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
@@ -37,15 +37,13 @@ def get_recent_IDs():
         ids.append(tweet['id'])
     return ids
 
-def get_likers():
-    '''
+def get_likes():
+    like_list = []
     for id in get_recent_IDs():
-        print(id)
-        json_response = connect_to_endpoint2(f'{search_url}tweets/{id}/liking_users')#, query_params)
-        print(json_response)'''
-    like_list = connect_to_endpoint2(f'{search_url}tweets/1590595662907084801/liking_users')['data']
-    return len(like_list)
+        r = connect_to_endpoint2(f'{search_url}tweets?ids={id}&tweet.fields=public_metrics&expansions=attachments.media_keys&media.fields=public_metrics')['data'][0]
+        like_list.append(r['public_metrics']['like_count'])
+    return like_list
 
 
 if __name__ == "__main__":
-    print(get_likers())
+    print(get_likes())
