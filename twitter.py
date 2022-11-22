@@ -9,7 +9,7 @@ search_url = "https://api.twitter.com/2/"
 
 # start_time,end_time,since_id,until_id,max_results,next_token,
 #   expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
-query_params = {'query': 'from:chiw00k','tweet.fields': 'author_id'}
+query_params = {'query': 'from:johngreen','tweet.fields': 'author_id'}
 
 def bearer_oauth(r):
     r.headers["Authorization"] = f"Bearer {bearer_token}"
@@ -38,11 +38,21 @@ def get_recent_IDs():
     return ids
 
 def get_likes():
-    like_list = []
+    likes = []
     for id in get_recent_IDs():
-        r = connect_to_endpoint2(f'{search_url}tweets?ids={id}&tweet.fields=public_metrics&expansions=attachments.media_keys&media.fields=public_metrics')['data'][0]
-        like_list.append(r['public_metrics']['like_count'])
-    return like_list
+        r = connect_to_endpoint2(f'{search_url}tweets?ids={id}&tweet.fields=public_metrics')['data'][0] # &expansions=attachments.media_keys&media.fields=public_metrics')['data'][0]
+        likes.append(r['public_metrics']['like_count'])
+    return likes
+    
+def get_tweets():
+    tweets = []
+    for id in get_recent_IDs():
+        r = connect_to_endpoint2(f'{search_url}tweets?ids={id}&tweet.fields=public_metrics')['data'][0] # &expansions=attachments.media_keys&media.fields=public_metrics')['data'][0]
+        tweets.append(r['text'])
+    return tweets
 
 if __name__ == "__main__":
-    print(get_likes())
+    tweets = get_tweets()
+    likes = get_likes()
+    for like, tweet in zip(likes, tweets):
+        print(f'{like}: {tweet}')
