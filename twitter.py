@@ -44,6 +44,5 @@ def get_likes():
         like_list.append(r['public_metrics']['like_count'])
     return like_list
 
-
 if __name__ == "__main__":
     print(get_likes())
