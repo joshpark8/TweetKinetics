@@ -3,7 +3,7 @@ from requests_oauthlib import OAuth2Session
 from requests.auth import HTTPBasicAuth
 from os import environ
 
-client_id = environ.get('SPOTIFY_CID')
+client_id = environ.get('SPOTIFY_CID') 
 client_secret = environ.get('SPOTIFY_CLIENT_SECRET')
 redirect_uri = 'https://localhost'
 
