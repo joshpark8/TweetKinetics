@@ -4,22 +4,16 @@ from requests_oauthlib import OAuth2Session
 from os import environ
 
 base_url = "https://api.twitter.com/2/"
-redirect_uri = "https://joshpark.dev/tweetkinetics"
+redirect_uri = "https://www.joshpark.dev/tweetkinetics"
 oauth_url = f'{base_url}oauth2/'
 
 bearer_token = environ.get("TWITTER_BEARER_TOKEN")
 client_id = environ.get("TWITTER_OAUTH_CID")
 client_secret = environ.get("TWITTER_OAUTH_CLIENT_SECRET")
-scope = [
-    "tweet.fields=non_public_metrics,organic_metrics",
-    "expansions=attachments.media_keys&media.fields=non_public_metrics,organic_metrics",
-]
 
 # start_time,end_time,since_id,until_id,max_results,next_token,
 #   expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
 query_params = {'query': 'from:johngreen','tweet.fields': 'author_id'}
-twitter = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
-authorization_url, state = twitter.authorization_url(oauth_url)
 
 def bearer_oauth(r):
     r.headers["Authorization"] = f"Bearer {bearer_token}"
@@ -69,10 +63,13 @@ def get_tweets():
         return tweets
     return tweets'''
 
+test_url = f"https://twitter.com/i/oauth2/authorize?response_type=code&client_id={client_id}&redirect_uri={(redirect_uri)}&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain"
+
 if __name__ == "__main__":
     tweets = get_tweets()
     likes = get_likes()
     # impressions = get_impressions() # not public
     # print(f'{impressions}\n')
+    print(test_url)
     for like, tweet in zip(likes, tweets):
         print(f'{like}: {tweet}')
