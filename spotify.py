@@ -1,7 +1,8 @@
 # Credentials you get from registering a new application
-from requests_oauthlib import OAuth2Session
-from requests.auth import HTTPBasicAuth
 from os import environ
+
+from requests.auth import HTTPBasicAuth
+from requests_oauthlib import OAuth2Session
 
 client_id = environ.get('SPOTIFY_CID') 
 client_secret = environ.get('SPOTIFY_CLIENT_SECRET')

@@ -1,6 +1,7 @@
+from os import environ
+
 import requests
 from requests_oauthlib import OAuth2Session
-from os import environ
 
 base_url = "https://api.twitter.com/2/"
 redirect_uri = "https://joshpark.dev/tweetkinetics"
